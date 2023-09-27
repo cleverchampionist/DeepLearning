@@ -56,7 +56,7 @@ y_test = to_categorical(y_test, n_classes)
 #     print(y_train[i])
 
 history = model.fit(x_train, y_train, batch_size = 128,
-            epochs = 20, verbose = 2, validation_data = (x_test, y_test))
+            epochs = 10, verbose = 2, validation_data = (x_test, y_test))
 loss_and_metrics = model.evaluate(x_test, y_test, verbose = 2)
 
 print("Test Loss:", loss_and_metrics[0])
@@ -100,4 +100,4 @@ path = os.path.join(directory, name)
 model.save(path)
 print('saved trained mode at %s ' %path)
 
-# plot_model(model, to_file = 'model_image.png')
+plot_model(model, to_file = 'model_image.png')
