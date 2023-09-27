@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib 
+import os
 import matplotlib.pyplot as plot
 from keras.datasets import mnist
 from keras.models import Sequential, load_model
@@ -55,7 +56,7 @@ y_test = to_categorical(y_test, n_classes)
 #     print(y_train[i])
 
 history = model.fit(x_train, y_train, batch_size = 128,
-            epochs = 10, verbose = 2, validation_data = (x_test, y_test))
+            epochs = 20, verbose = 2, validation_data = (x_test, y_test))
 loss_and_metrics = model.evaluate(x_test, y_test, verbose = 2)
 
 print("Test Loss:", loss_and_metrics[0])
@@ -80,10 +81,21 @@ plot.tight_layout()
 plot.show()
 
 predictions = model.predict(x_test)
-corret_predictions = np.nonzero(predictions == y_test)[0]
-incorrect_predictions = np.nonzero(predictions != y_test)[0]
+# Find the index of the maximum probability for each prediction
+predicted_labels = np.argmax(predictions, axis=1)
 
-print(len(corret_predictions), "classified correctly")
-print(len(incorrect_predictions), "classified incorrectly")
+# Find the index of the true class label for each sample in y_test
+true_labels = np.argmax(y_test, axis=1)
 
+# Compare the predicted labels with the true labels to find correct and incorrect predictions
+correct_predictions = np.sum(predicted_labels == true_labels)
+incorrect_predictions = len(predictions) - correct_predictions
 
+print(correct_predictions, "classified correctly")
+print(incorrect_predictions, "classified incorrectly")
+
+directory = "./models/"
+name = 'handwrittendigitrecognition.h5'
+path = os.path.join(directory, name)
+model.save(path)
+print('saved trained mode at %s ' %path)
