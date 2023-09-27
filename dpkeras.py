@@ -5,7 +5,7 @@ import matplotlib.pyplot as plot
 from keras.datasets import mnist
 from keras.models import Sequential, load_model
 from keras.layers import Dense, Dropout, Activation
-from keras.utils import to_categorical
+from keras.utils import to_categorical, plot_model
 
 model = Sequential()
 model.add(Dense(512, input_shape = (784,)))
@@ -99,3 +99,5 @@ name = 'handwrittendigitrecognition.h5'
 path = os.path.join(directory, name)
 model.save(path)
 print('saved trained mode at %s ' %path)
+
+# plot_model(model, to_file = 'model_image.png')
